@@ -38,7 +38,7 @@ class LegalEntity(Base):
     address: Mapped["Address"] = relationship(back_populates="legal_entities")
     person: Mapped["Person"] = relationship(back_populates="legal_entity")
     company: Mapped["Company"] = relationship(back_populates="legal_entity")
-
+    user: Mapped["User"] = relationship(back_populates="legal_entity")
     invoices: Mapped[List["Invoice"]] = relationship(
         foreign_keys="Invoice.owner_id", back_populates="owner"
     )
@@ -82,6 +82,18 @@ class Company(Base):
 
     legal_entity: Mapped["LegalEntity"] = relationship(
         back_populates="company", single_parent=True
+    )
+
+
+class User(Base):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(ForeignKey("legal_entities.email"), index=True)
+    hashed_password: Mapped[str]
+    is_active: Mapped[bool] = mapped_column(index=True)
+
+    legal_entity: Mapped["LegalEntity"] = relationship(
+        back_populates="user", single_parent=True
     )
 
 
