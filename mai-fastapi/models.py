@@ -73,7 +73,8 @@ class Company(Base):
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(index=True)
+    name: Mapped[str] = mapped_column(unique=True, index=True)
+    website: Mapped[str | None] = mapped_column(unique=True)
     registration_number: Mapped[str | None] = mapped_column(unique=True)
     legal_entity_id: Mapped[int] = mapped_column(
         ForeignKey("legal_entities.id"),
@@ -89,7 +90,7 @@ class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(ForeignKey("legal_entities.email"), index=True)
-    hashed_password: Mapped[str]
+    password: Mapped[str]
     is_active: Mapped[bool] = mapped_column(index=True)
 
     legal_entity: Mapped["LegalEntity"] = relationship(
