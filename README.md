@@ -1,4 +1,4 @@
-# Mai-FastAPI
+# Mai-Invoice-Generator
 
 ## Description
 
